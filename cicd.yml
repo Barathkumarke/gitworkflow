@@ -1,0 +1,31 @@
+name: Auto Upload Files to GitHub
+
+on:
+  push:
+    branches:
+      - main  # or your default branch
+  workflow_dispatch:  # allows manual triggering from GitHub UI
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Configure Git
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+    - name: Make Changes (Placeholder for Your File Ops)
+      run: |
+        # Example: echo a timestamp file (simulate file creation/update)
+        echo "Updated on $(date)" > updated.txt
+
+    - name: Commit and Push Changes
+      run: |
+        git add .
+        git commit -m "Auto-upload: updated files" || echo "No changes to commit"
+        git push
