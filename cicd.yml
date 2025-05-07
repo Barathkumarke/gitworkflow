@@ -1,31 +1,37 @@
+# Name of the workflow, shown in the GitHub Actions UI
 name: Auto Upload Files to GitHub
 
+# Define when the workflow should run
 on:
-  push:
+  push:                # Trigger the workflow when code is pushed
     branches:
-      - main  # or your default branch
-  workflow_dispatch:  # allows manual triggering from GitHub UI
+      - main           # Only run on the 'main' branch (you can change this)
+  workflow_dispatch:   # Allows manually triggering the workflow via GitHub UI
 
+# Define the jobs (sets of steps) to run
 jobs:
-  upload:
-    runs-on: ubuntu-latest
+  upload:              # Job name
+    runs-on: ubuntu-latest  # Use the latest Ubuntu virtual machine
 
     steps:
+    # Step 1: Check out the code from the repository
     - name: Checkout Repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v4  # Official GitHub Action to check out code
 
+    # Step 2: Set up Git configuration so the bot can commit
     - name: Configure Git
       run: |
-        git config --global user.name "github-actions[bot]"
-        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"  # Set Git username
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"  # Set Git email
 
+    # Step 3: Modify or create files (you can replace this with your own logic)
     - name: Make Changes (Placeholder for Your File Ops)
       run: |
-        # Example: echo a timestamp file (simulate file creation/update)
-        echo "Updated on $(date)" > updated.txt
+        echo "Updated on $(date)" > updated.txt  # Example: create a file with the current timestamp
 
+    # Step 4: Commit and push the changes back to the repository
     - name: Commit and Push Changes
       run: |
-        git add .
-        git commit -m "Auto-upload: updated files" || echo "No changes to commit"
-        git push
+        git add .                               # Stage all changes
+        git commit -m "Auto-upload: updated files" || echo "No changes to commit"  # Commit (ignore if nothing changed)
+        git push                                # Push to the remote repository
